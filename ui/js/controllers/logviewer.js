@@ -19,23 +19,23 @@ logViewerApp.controller('LogviewerCtrl', [
         $window, $document, $rootScope, $scope,
         $timeout, dateFilter) {
 
-        const query_string = getAllUrlParams();
-        $scope.css = '';
-        $rootScope.logOffset = 7;
-
-        const repo = query_string.get('repo');
-        if (repo !== '') {
-            $rootScope.repoName = repo;
-        }
-
-        if (query_string.job_id !== '') {
-          const jobId = query_string.get('job_id');
-          $scope.job_id = jobId;
-        }
-
-        $scope.loading = false;
-        $scope.jobExists = true;
-        $scope.showSuccessful = true;
+        // const query_string = getAllUrlParams();
+        // $scope.css = '';
+        // $rootScope.logOffset = 7;
+        //
+        // const repo = query_string.get('repo');
+        // if (repo !== '') {
+        //     $rootScope.repoName = repo;
+        // }
+        //
+        // if (query_string.job_id !== '') {
+        //   const jobId = query_string.get('job_id');
+        //   $scope.job_id = jobId;
+        // }
+        //
+        // $scope.loading = false;
+        // $scope.jobExists = true;
+        // $scope.showSuccessful = true;
 
         $scope.$watch('steps', () => {
             if (!$scope.steps) {
@@ -133,8 +133,8 @@ logViewerApp.controller('LogviewerCtrl', [
             return false;
         };
 
-        // Get the css class for the result, step buttons and other general use
-        $scope.getShadingClass = result => 'result-status-shading-' + result;
+        // // Get the css class for the result, step buttons and other general use
+        // $scope.getShadingClass = result => 'result-status-shading-' + result;
 
         // @@@ it may be possible to do this with the angular date filter?
         $scope.formatTime = (startedStr, finishedStr) => {
@@ -163,55 +163,55 @@ logViewerApp.controller('LogviewerCtrl', [
         $scope.getInspectTaskUrl = getInspectTaskUrl;
 
         $scope.init = () => {
-            $scope.logProperties = [];
-
-            JobModel.get($scope.repoName, $scope.job_id).then(async (job) => {
-                // set the title of the browser window/tab
-                $scope.logViewerTitle = job.getTitle();
-
-                if (job.logs && job.logs.length) {
-                    $scope.rawLogURL = job.logs[0].url;
-                }
-
-                // set the result value and shading color class
-                $scope.result = { label: 'Result', value: job.result };
-                $scope.resultStatusShading = $scope.getShadingClass(job.result);
-
-                // other properties, in order of appearance
-                $scope.logProperties = [
-                    { label: 'Job', value: $scope.logViewerTitle },
-                    { label: 'Machine', value: job.machine_name },
-                    { label: 'Start', value: dateFilter(job.start_timestamp * 1000, thDateFormat) },
-                    { label: 'End', value: dateFilter(job.end_timestamp * 1000, thDateFormat) },
-                ];
-
-                // Test to disable successful steps checkbox on taskcluster jobs
-                $scope.isTaskClusterLog = (job.build_system_type === 'taskcluster');
-                if (job.taskcluster_metadata) {
-                    $scope.taskId = job.taskcluster_metadata.task_id;
-                }
-
-                // Test to expose the reftest button in the logviewer actionbar
-                if ($scope.rawLogURL && job.job_group_name && isReftest(job)) {
-                    $scope.reftestUrl = getReftestUrl($scope.rawLogURL);
-                }
-
-                // get the revision and linkify it
-                PushModel.get(job.push_id).then(async (resp) => {
-                    const push = await resp.json();
-                    const revision = push.revision;
-
-                    $scope.logProperties.push({ label: 'Revision', value: revision });
-                });
-
-                $scope.job_details = await JobDetailModel.getJobDetails({ job_guid: job.job_guid });
-                $scope.$apply();
-            }).catch((error) => {
-                $scope.loading = false;
-                $scope.jobExists = false;
-                $scope.jobError = error.toString();
-                $scope.$apply();
-            });
+            // $scope.logProperties = [];
+            //
+            // JobModel.get($scope.repoName, $scope.job_id).then(async (job) => {
+            //     // set the title of the browser window/tab
+            //     $scope.logViewerTitle = job.getTitle();
+            //
+            //     if (job.logs && job.logs.length) {
+            //         $scope.rawLogURL = job.logs[0].url;
+            //     }
+            //
+            //     // set the result value and shading color class
+            //     $scope.result = { label: 'Result', value: job.result };
+            //     $scope.resultStatusShading = $scope.getShadingClass(job.result);
+            //
+            //     // other properties, in order of appearance
+            //     $scope.logProperties = [
+            //         { label: 'Job', value: $scope.logViewerTitle },
+            //         { label: 'Machine', value: job.machine_name },
+            //         { label: 'Start', value: dateFilter(job.start_timestamp * 1000, thDateFormat) },
+            //         { label: 'End', value: dateFilter(job.end_timestamp * 1000, thDateFormat) },
+            //     ];
+            //
+            //     // Test to disable successful steps checkbox on taskcluster jobs
+            //     $scope.isTaskClusterLog = (job.build_system_type === 'taskcluster');
+            //     if (job.taskcluster_metadata) {
+            //         $scope.taskId = job.taskcluster_metadata.task_id;
+            //     }
+            //
+            //     // Test to expose the reftest button in the logviewer actionbar
+            //     if ($scope.rawLogURL && job.job_group_name && isReftest(job)) {
+            //         $scope.reftestUrl = getReftestUrl($scope.rawLogURL);
+            //     }
+            //
+            //     // get the revision and linkify it
+            //     PushModel.get(job.push_id).then(async (resp) => {
+            //         const push = await resp.json();
+            //         const revision = push.revision;
+            //
+            //         $scope.logProperties.push({ label: 'Revision', value: revision });
+            //     });
+            //
+            //     $scope.job_details = await JobDetailModel.getJobDetails({ job_guid: job.job_guid });
+            //     $scope.$apply();
+            // }).catch((error) => {
+            //     $scope.loading = false;
+            //     $scope.jobExists = false;
+            //     $scope.jobError = error.toString();
+            //     $scope.$apply();
+            // });
         };
 
         $scope.logviewerInit = () => {

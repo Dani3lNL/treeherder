@@ -13,7 +13,6 @@ const UI = path.join(CWD, 'ui');
 const DIST = path.join(CWD, 'dist');
 const INDEX_TEMPLATE = path.join(UI, 'index.html');
 const PERF_TEMPLATE = path.join(UI, 'perf.html');
-const LOGVIEWER_TEMPLATE = path.join(UI, 'logviewer.html');
 
 const HTML_MINIFY_OPTIONS = {
     useShortDoctype: true,
@@ -67,7 +66,7 @@ module.exports = neutrino => {
         .end();
     neutrino.config
         .entry('logviewer')
-        .add(path.join(UI, 'entry-logviewer.js'))
+        .add(path.join(UI, 'log-view', 'index.jsx'))
         .end();
     neutrino.config
         .entry('login')
@@ -154,11 +153,16 @@ module.exports = neutrino => {
     neutrino.config
         .plugin('html-logviewer')
         .use(HtmlPlugin, {
-            inject: 'body',
+            inject: false,
+            template: htmlTemplate,
+            favicon: 'ui/img/logviewericon.png',
             filename: 'logviewer.html',
-            template: LOGVIEWER_TEMPLATE,
             chunks: ['logviewer', 'vendor', 'manifest'],
-            minify: HTML_MINIFY_OPTIONS
+            appMountId: 'root',
+            xhtml: true,
+            mobile: true,
+            minify: HTML_MINIFY_OPTIONS,
+            title: 'Treeherder Logviewer',
         });
 
     neutrino.config

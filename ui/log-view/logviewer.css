@@ -9,6 +9,10 @@ body {
     flex-flow: column;
 }
 
+#root {
+  height: 100%;
+}
+
 .navbar {
     flex: none;
     min-height: 41px; /* 40 for contained elements + lower bootstrap border */
@@ -64,14 +68,14 @@ body {
     background: #f8f8f8;
 }
 
-#lv-successful-steps {
-    font-size: 12px;
-}
+/*#lv-successful-steps {*/
+    /*font-size: 12px;*/
+/*}*/
 
-#lv-successful-steps > input {
-    margin: 0;
-    vertical-align: middle;
-}
+/*#lv-successful-steps > input {*/
+    /*margin: 0;*/
+    /*vertical-align: middle;*/
+/*}*/
 
 /* Override the position of the shared notification partial */
 #notification-box {
@@ -98,6 +102,7 @@ body {
 .logview-container {
     flex: 1;
     overflow: hidden;
+    height: 100%;
     min-height: 200px;
 }
 
@@ -109,6 +114,16 @@ body {
 
 .lv-line-highlight {
     background-color: LightGrey;
+}
+
+#job-info {
+  font-size: 14px;
+  overflow-y: auto;
+  max-height: 230px;
+}
+
+#job-info label {
+  margin-right: 5px;
 }
 
 .run-data {
