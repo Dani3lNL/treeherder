@@ -10,11 +10,12 @@ import {
 } from '../helpers/location';
 import JobModel from '../models/job';
 import { isReftest } from '../helpers/job';
-import { getReftestUrl } from '../helpers/url';
+import { getJobsUrl, getReftestUrl } from '../helpers/url';
 import PushModel from '../models/push';
 import JobDetailModel from '../models/jobDetail';
 import JobInfo from '../shared/JobInfo';
 import TextLogStepModel from '../models/textLogStep';
+import JobDetails from '../shared/JobDetails';
 
 export default class App extends React.PureComponent {
   constructor(props) {
@@ -149,6 +150,10 @@ export default class App extends React.PureComponent {
       revision, errors, lineNumber,
     } = this.state;
     console.log('jobDetails', jobDetails);
+    const extraFields = [{
+      title: 'Revision',
+      url: getJobsUrl({ revision, selectedJob: this.jobId }),
+    }];
 
     return (
       <div className="body-logviewer h-100">
@@ -162,13 +167,14 @@ export default class App extends React.PureComponent {
         {job && <div className="d-flex flex-column container-fluid h-100">
           <div className="run-data">
             <div className="row">
-              <div className="col">
+              <div className="col job-data-panel">
                 <JobInfo
                   job={job}
-                  jobDetails={jobDetails}
+                  extraFields={extraFields}
                   revision={revision}
                   className="list-unstyled"
                 />
+                <JobDetails jobDetails={jobDetails} />
               </div>
               <div className="col">
                 <ErrorLines
