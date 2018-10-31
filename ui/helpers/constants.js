@@ -300,7 +300,7 @@ export const phBlockers = {
 export const phDefaultFramework = 'talos';
 
 export const phFrameworksWithRelatedBranches = [
-    1,  // talos
+    1, // talos
     10, // raptor
     11, // js-bench
     12, // devtools
